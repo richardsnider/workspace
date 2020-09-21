@@ -29,20 +29,18 @@ RUN apt-get install --yes unzip
 RUN apt-get install --yes jq
 RUN apt-get install --yes git
 
-# RUN useradd --password pass --uid 1000 user
+RUN useradd --create-home --system --home /home/user --shell /bin/bash --groups sudo --uid 1000 user 
+RUN echo "user:pass" | chpasswd
+
 ENV HOME=/home/user
 ENV BUILD_DIRECTORY=$HOME/build
 WORKDIR $HOME
 
-# ADD --chown=user ./build $BUILD_DIRECTORY
-# RUN chmod +x $BUILD_DIRECTORY/*.sh 
-# RUN $BUILD_DIRECTORY/setup.sh
+ADD --chown=user ./build $BUILD_DIRECTORY
+RUN chmod --recursive +x $BUILD_DIRECTORY/*.sh 
+RUN $BUILD_DIRECTORY/setup.sh
 
-RUN useradd --create-home --system --home /home/user --shell /bin/bash --gid root --groups sudo --uid 1000 user 
-RUN echo "user:pass" | chpasswd
 RUN service ssh start
-
-# USER 1000
 
 EXPOSE 22 25 53 80 8000-8100
 CMD    ["/usr/sbin/sshd", "-D"]

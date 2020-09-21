@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Setup ssh server"
-mkdir /var/run/sshd
-echo 'user:pass' | chpasswd
-sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
-mkdir $HOME/.ssh
-
-# TODO: download these scripts from internet
-# find $BUILD_DIRECTORY/scripts -name '*.sh' -exec chmod a+x {} +
-# cp $BUILD_DIRECTORY/scripts/* /usr/local/bin
-# cp $BUILD_DIRECTORY/.bashrc $HOME/.bashrc
-# chown -R user:user $HOME
+cp $BUILD_DIRECTORY/scripts/* /usr/local/bin
+cp $BUILD_DIRECTORY/.bashrc $HOME/.bashrc
 
 # echo "Install brew via git clone as directed by https://docs.brew.sh/Homebrew-on-Linux#alternative-installation"
 # git clone https://github.com/Homebrew/brew $HOME/.linuxbrew/Homebrew
