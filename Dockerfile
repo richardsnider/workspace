@@ -36,24 +36,17 @@ ENV HOME=/home/user
 ENV BUILD_DIRECTORY=$HOME/build
 WORKDIR $HOME
 
-ADD --chown=user ./build/scripts /usr/local/bin
+ADD ./build/scripts /usr/local/bin
 RUN chmod +x /usr/local/bin/*.sh
 
-ADD --chown=user ./build/.bashrc $HOME/.bashrc
+ADD ./build/.bashrc $HOME/.bashrc
 RUN chmod +x $HOME/.bashrc
 
 # Install brew via git clone as directed by https://docs.brew.sh/Homebrew-on-Linux#alternative-installation
 RUN git clone https://github.com/Homebrew/brew $HOME/.linuxbrew/Homebrew
 RUN mkdir $HOME/.linuxbrew/bin
 RUN ln -s $HOME/.linuxbrew/Homebrew/bin/brew $HOME/.linuxbrew/bin
-RUN eval $($HOME/.linuxbrew/bin/brew shellenv)
-RUN brew update
-RUN brew upgrade
-RUN brew install sops
-RUN brew install kubectl
-RUN brew install kops
-RUN brew install helm
-RUN chown --recursive user $HOME/.linuxbrew
+RUN eval $($HOME/.linuxbrew/bin/brew shellenv) && brew install sops kubectl kops
 
 # Install nodejs as directed by https://github.com/nodesource/distributions/blob/master/README.md#debinstall
 RUN curl --silent https://deb.nodesource.com/setup_12.x | bash -
@@ -64,6 +57,9 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/aw
 RUN unzip $HOME/awscliv2.zip
 RUN $HOME/aws/install
 RUN rm -rf $HOME/aws $HOME/awscliv2.zip
+
+RUN chown --recursive user $HOME
+RUN chown --recursive user /usr
 
 RUN service ssh start
 
