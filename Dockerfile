@@ -36,12 +36,6 @@ ENV HOME=/home/user
 ENV BUILD_DIRECTORY=$HOME/build
 WORKDIR $HOME
 
-ADD ./build/scripts /usr/local/bin
-RUN chmod +x /usr/local/bin/*.sh
-
-ADD ./build/.bashrc $HOME/.bashrc
-RUN chmod +x $HOME/.bashrc
-
 # Install brew via git clone as directed by https://docs.brew.sh/Homebrew-on-Linux#alternative-installation
 RUN git clone https://github.com/Homebrew/brew $HOME/.linuxbrew/Homebrew
 RUN mkdir $HOME/.linuxbrew/bin
@@ -57,6 +51,12 @@ RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/aw
 RUN unzip $HOME/awscliv2.zip
 RUN $HOME/aws/install
 RUN rm -rf $HOME/aws $HOME/awscliv2.zip
+
+ADD ./build/scripts /usr/local/bin
+RUN chmod +x /usr/local/bin/*.sh
+
+ADD ./build/.bashrc $HOME/.bashrc
+RUN chmod +x $HOME/.bashrc
 
 RUN chown --recursive user $HOME
 RUN chown --recursive user /usr
