@@ -10,19 +10,15 @@ chmod +x $SETTINGS_FILE
 source $SETTINGS_FILE
 
 mkdir -p $HOME/.ssh
-if [[ -z ${SSH_PRIVATE_KEY} ]]; then
-  rm --force $HOME/.ssh/id_rsa $HOME/.ssh/id_rsa.pub
-  ssh-keygen -t rsa -b 4096 -q -N "" -C "" -f $HOME/.ssh/id_rsa
-else
-  echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
-  echo $SSH_PUBLIC_KEY > $HOME/.ssh/id_rsa.pub
-fi
+echo "$SSH_PRIVATE_KEY" > $HOME/.ssh/id_rsa
+echo "$SSH_PUBLIC_KEY" > $HOME/.ssh/id_rsa.pub
 
-echo "Host github.com" > $HOME/.ssh/config
-echo "User git" >> $HOME/.ssh/config
-echo "Hostname github.com" >> $HOME/.ssh/config
-echo "PreferredAuthentications publickey" >> $HOME/.ssh/config
-echo "IdentityFile $HOME/.ssh/id_rsa" >> $HOME/.ssh/config
+SSH_CONFIG_CONTENT="Host github.com
+User git
+Hostname github.com
+PreferredAuthentications publickey
+IdentityFile $HOME/.ssh/id_rsa"
+echo "$SSH_CONFIG_CONTENT" > $HOME/.ssh/config
 
 cat $HOME/.ssh/id_rsa.pub > $HOME/.ssh/authorized_keys
 eval "$(ssh-agent -s)"
