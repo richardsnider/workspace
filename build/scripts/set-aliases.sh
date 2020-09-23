@@ -51,6 +51,8 @@ alias b-ungz='tar -xvzf'
 # Show all logs in /var/log
 alias b-logs="find /var/log -type f -exec file {} \; | grep 'text' | cut -d' ' -f1 | sed -e's/:$//g' | grep -v '[0-9]$' | xargs tail -f"
 
+alias b-ssh-keygen="ssh-keygen -t rsa -b 4096 -q -N "" -C """
+
 alias b-git-findcommit='!git log --oneline --date=short --pretty=format:"%Cred%<(10)%h%Creset%Cgreen%<(20)%an%Creset%Cblue%<(15)%ad%Creset%<(20)%s" --source --all -S'
 alias b-git-fc='!git log --oneline --date=short --pretty=format:"%Cred%<(10)%h%Creset%Cgreen%<(20)%an%Creset%Cblue%<(15)%ad%Creset%<(20)%s" --source --all -S'
 alias b-git-hist='log --graph --oneline --decorate --all'
