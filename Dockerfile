@@ -29,7 +29,7 @@ RUN apt-get install --yes unzip
 RUN apt-get install --yes jq
 RUN apt-get install --yes git
 
-RUN useradd --create-home --system --home /home/user --shell /bin/bash --groups sudo --uid 1000 user 
+RUN useradd --create-home --system --home /home/user --shell /bin/bash --groups sudo --uid 1000 user
 RUN echo "user:pass" | chpasswd
 
 ENV HOME=/home/user
@@ -43,7 +43,7 @@ RUN ln -s $HOME/.linuxbrew/Homebrew/bin/brew $HOME/.linuxbrew/bin
 RUN eval $($HOME/.linuxbrew/bin/brew shellenv) && brew install sops kubectl kops
 
 # Install nodejs as directed by https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-RUN curl --silent https://deb.nodesource.com/setup_12.x | bash -
+RUN curl --silent https://deb.nodesource.com/setup_14.x | bash -
 RUN apt-get install -y nodejs
 
 # Install AWS CLI as directed by https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
@@ -64,4 +64,4 @@ RUN chown --recursive user /usr
 RUN service ssh start
 
 EXPOSE 22 25 53 80 8000-8100
-CMD    ["/usr/sbin/sshd", "-D"]
+CMD ["/usr/sbin/sshd", "-D"]
